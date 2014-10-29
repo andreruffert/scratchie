@@ -35,7 +35,7 @@
         defaults = {
             canvasClassName: 'scratchcard-canvas',
             brush: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAJ0lEQVR42u3NoQEAAAjAoP3/tJ6hgUCmao6IxWKxWCwWi8VisfhrvDDIgKphXmDUAAAAAElFTkSuQmCC',
-            onFillEnd: null,    // Callback fn
+            onRenderEnd: null,    // Callback fn
             onScratchMove: null // Callback fn
         };
 
@@ -52,8 +52,8 @@
         this.handleStart        = this.handleStart.bind(this);
         this.handelMove         = this.handleMove.bind(this);
         this.handleEnd          = this.handleEnd.bind(this);
-        this.onFillEnd          = this.options.onFillEnd.bind(this);
-        this.onScratchMove      = this.options.onScratchMove.bind(this);
+        this.onRenderEnd        = this.options.onRenderEnd && this.options.onRenderEnd.bind(this);
+        this.onScratchMove      = this.options.onScratchMove && this.options.onScratchMove.bind(this);
 
         this.brush              = new Image();
         this.brush.src          = this.options.brush;
@@ -120,8 +120,8 @@
         };
 
         fill[type](value, function() {
-            if (_this.onFillEnd && typeof _this.onFillEnd === 'function') {
-                _this.onFillEnd();
+            if (_this.onRenderEnd && typeof _this.onRenderEnd === 'function') {
+                _this.onRenderEnd();
             }
         });
     };
