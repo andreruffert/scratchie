@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <style>
+        body {
+            padding: 30px 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .scratchcard {
+            border: 3px solid yellow;
+            width: 150px;
+            height: 150px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        }
+
+        .form {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="scratchcard" data-provide="scratchcard">
+  <form class="scratchcard__secret" style="visibility: hidden;">
+    <h1 style="text-align: center">'Allo, 'Allo!</h1>
+  </form>
+</div>
+
+<br>
+<i>Load image:</i>
+<button onclick="scratchcard.render('image', 'image1.png')">1</button>
+<button onclick="scratchcard.render('image', 'image2.png')">2</button>
+<button onclick="scratchcard.render('image', 'image3.png')">3</button>
+<button onclick="scratchcard.render('image', 'image4.png')">4</button>
+<br>
+<br>
+<i>Fill color</i>
+<button onclick="scratchcard.render('color', 'red')">red</button>
+<button onclick="scratchcard.render('color', 'blue')">blue</button>
+<button onclick="scratchcard.render('color', 'hotpink')">hotpink</button>
+<button onclick="scratchcard.render('color', 'yellow')">yellow</button>
+<br>
+<br>
+<code>
+    // Public API to initialize and update the CanvasContext:
+    <br>
+    scratchcard.fill(type, value);
+</code>
+
+<script src="scratchcard.js"></script>
+<script>
+(function() {
+    var scratchcard = new Scratchcard('[data-provide=scratchcard]', {
+        brush: 'brush.png',
+        onFillEnd: function() {
+            // Show canvas
+            this.canvas.style.display = 'block';
+
+            // Show the form when Image is loaded.
+            this.element.querySelectorAll('.scratchcard__secret')[0].style.visibility = 'visible';
+        },
+        onScratchMove: function(filledInPixels) {
+            if (filledInPixels > 50) {
+                //this.canvas.style.display = 'none';
+            }
+
+            // DEBUG
+            //console.log(filledInPixels + '%');
+        }
+    });
+
+    scratchcard.render('image', 'image1.png');
+    /*
+    scratchcard.render('custom', function() {
+        this.ctx.rect(0, 0, this.canvasWidth, this.canvasWidth);
+
+        // add linear gradient
+        var grd = this.ctx.createLinearGradient(this.canvas.width / 2, 0, this.canvas.width / 2, this.canvas.height);
+        grd.addColorStop(0, 'hotpink');
+        // dark blue
+        grd.addColorStop(1, 'white');
+        this.ctx.fillStyle = grd;
+        this.ctx.fill();
+    });
+    */
+
+    // Global expose
+    window.scratchcard = scratchcard;
+})();
+</script>
+</body>
+</html>
