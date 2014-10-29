@@ -20,7 +20,7 @@ Using scratchcard.js is simple
 
 The `render()` API takes a few options
 
-```js
+```javascript
 scratchcard.render(type, value);
 ```
 
