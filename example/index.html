@@ -21,33 +21,53 @@
             -o-user-select: none;
             user-select: none;
         }
-
-        .form {
-            padding: 20px;
-        }
     </style>
 </head>
 <body>
 
-<div class="scratchcard" data-provide="scratchcard">
-  <form class="scratchcard__secret" style="visibility: hidden;">
+<div class="scratchcard" data-scratchcard="cover1.png">
+  <div class="scratchcard__secret" style="visibility: hidden;">
     <h1 style="text-align: center">'Allo, 'Allo!</h1>
-  </form>
+  </div>
+</div>
+
+<div class="scratchcard" data-scratchcard="cover2.png">
+  <div class="scratchcard__secret" style="visibility: hidden;">
+    <h1 style="text-align: center">'Allo, 'Allo!</h1>
+  </div>
+</div>
+
+<div class="scratchcard" data-scratchcard="cover3.png">
+  <div class="scratchcard__secret" style="visibility: hidden;">
+    <h1 style="text-align: center">'Allo, 'Allo!</h1>
+  </div>
+</div>
+
+<div class="scratchcard" data-scratchcard="cover4.png">
+  <div class="scratchcard__secret" style="visibility: hidden;">
+    <h1 style="text-align: center">'Allo, 'Allo!</h1>
+  </div>
+</div>
+
+<div class="scratchcard" data-scratchcard="red">
+  <div class="scratchcard__secret" style="visibility: hidden;">
+    <h1 style="text-align: center">'Allo, 'Allo!</h1>
+  </div>
 </div>
 
 <br>
 <i>Load image:</i>
-<button onclick="scratchcard.render('image', 'image1.png')">1</button>
-<button onclick="scratchcard.render('image', 'image2.png')">2</button>
-<button onclick="scratchcard.render('image', 'image3.png')">3</button>
-<button onclick="scratchcard.render('image', 'image4.png')">4</button>
+<button onclick="scratchcard.render('cover1.png')">1</button>
+<button onclick="scratchcard.render('cover2.png')">2</button>
+<button onclick="scratchcard.render('cover3.png')">3</button>
+<button onclick="scratchcard.render('cover4.png')">4</button>
 <br>
 <br>
 <i>Fill color</i>
-<button onclick="scratchcard.render('color', 'red')">red</button>
-<button onclick="scratchcard.render('color', 'blue')">blue</button>
-<button onclick="scratchcard.render('color', 'hotpink')">hotpink</button>
-<button onclick="scratchcard.render('color', 'yellow')">yellow</button>
+<button onclick="scratchcard.render('red')">red</button>
+<button onclick="scratchcard.render('blue')">blue</button>
+<button onclick="scratchcard.render('hotpink')">hotpink</button>
+<button onclick="scratchcard.render('yellow')">yellow</button>
 <br>
 <br>
 <code>
@@ -56,29 +76,23 @@
     scratchcard.fill(type, value);
 </code>
 
-<script src="scratchcard.js"></script>
+<script src="/scratchcard.js"></script>
 <script>
 (function() {
-    var scratchcard = new Scratchcard('[data-provide=scratchcard]', {
-        brush: 'brush.png',
-        onFillEnd: function() {
-            // Show canvas
-            this.canvas.style.display = 'block';
 
+
+    var scratchcard = new Scratchcard('[data-scratchcard]', {
+        brush: 'brush.png',
+        onRenderEnd: function() {
             // Show the form when Image is loaded.
             this.element.querySelectorAll('.scratchcard__secret')[0].style.visibility = 'visible';
         },
         onScratchMove: function(filledInPixels) {
-            if (filledInPixels > 50) {
-                //this.canvas.style.display = 'none';
-            }
-
-            // DEBUG
             //console.log(filledInPixels + '%');
         }
     });
 
-    scratchcard.render('image', 'image1.png');
+    //document.querySelectorAll('[data-provide=scratchcard]')[1].scratchcard.render('image', 'cover1.png');
     /*
     scratchcard.render('custom', function() {
         this.ctx.rect(0, 0, this.canvasWidth, this.canvasWidth);
