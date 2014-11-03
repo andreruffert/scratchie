@@ -1,18 +1,17 @@
-# Scratchcard.js
+# Scratchie.js
 
-A standalone JavaScript micro-library to create HTML5 canvas based scratch cards. Check out a [demo](). Scratchcard.js works in IE9+.
+A standalone JavaScript micro-library to create HTML5 canvas based scratch off panels. Check out a [demo](). Scratchie.js works in IE9+.
 
 ```
-bower install scratchcard.js
+bower install scratchie.js
 ```
 
-Using scratchcard.js is simple
+Using scratchie.js is simple
 
 ```html
-<script src="dist/scratchcard.js"></script>
+<script src="dist/scratchie.js"></script>
 <script>
-	var var scratchcard = new Scratchcard('[data-provide=scratchcard]');
-	scratchcard.render('image', 'image1.png');
+	var scratchie = new Scratchie('[data-scratchie="hotpink"]');
 </script>
 ```
 
@@ -21,13 +20,10 @@ Using scratchcard.js is simple
 The `render()` API takes a few options
 
 ```javascript
-scratchcard.render(type, value);
+scratchie.render(value);
 ```
-
-### type
-Type: `String` Default: `color`
 
 ### value
 Type: `String` Default: `black` 
 
-Color Name or HEX e.g. `hotpink`, `#FF69B4`
+Color Name, HEX or image e.g. `hotpink`, `#FF69B4`, `/path/to/image.png`

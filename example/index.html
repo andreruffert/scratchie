@@ -11,104 +11,83 @@
             margin: 0 auto;
         }
 
-        .scratchcard {
+        .scratchie {
             border: 3px solid yellow;
             width: 150px;
             height: 150px;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            -o-user-select: none;
-            user-select: none;
         }
     </style>
 </head>
 <body>
 
-<div class="scratchcard" data-scratchcard="cover1.png">
-  <div class="scratchcard__secret" style="visibility: hidden;">
+<div class="scratchie" data-scratchie="cover1.png">
+  <div class="scratchie__secret" style="visibility: hidden;">
     <h1 style="text-align: center">'Allo, 'Allo!</h1>
   </div>
 </div>
 
-<div class="scratchcard" data-scratchcard="cover2.png">
-  <div class="scratchcard__secret" style="visibility: hidden;">
+<div class="scratchie" data-scratchie="cover2.png">
+  <div class="scratchie__secret" style="visibility: hidden;">
     <h1 style="text-align: center">'Allo, 'Allo!</h1>
   </div>
 </div>
 
-<div class="scratchcard" data-scratchcard="cover3.png">
-  <div class="scratchcard__secret" style="visibility: hidden;">
+<div class="scratchie" data-scratchie="cover3.png">
+  <div class="scratchie__secret" style="visibility: hidden;">
     <h1 style="text-align: center">'Allo, 'Allo!</h1>
   </div>
 </div>
 
-<div class="scratchcard" data-scratchcard="cover4.png">
-  <div class="scratchcard__secret" style="visibility: hidden;">
+<div class="scratchie" data-scratchie="cover4.png">
+  <div class="scratchie__secret" style="visibility: hidden;">
     <h1 style="text-align: center">'Allo, 'Allo!</h1>
   </div>
 </div>
 
-<div class="scratchcard" data-scratchcard="red">
-  <div class="scratchcard__secret" style="visibility: hidden;">
+<div class="scratchie" data-scratchie="red">
+  <div class="scratchie__secret" style="visibility: hidden;">
     <h1 style="text-align: center">'Allo, 'Allo!</h1>
   </div>
 </div>
 
 <br>
 <i>Load image:</i>
-<button onclick="scratchcard.render('cover1.png')">1</button>
-<button onclick="scratchcard.render('cover2.png')">2</button>
-<button onclick="scratchcard.render('cover3.png')">3</button>
-<button onclick="scratchcard.render('cover4.png')">4</button>
+<button onclick="scratchie.render('cover1.png')">1</button>
+<button onclick="scratchie.render('cover2.png')">2</button>
+<button onclick="scratchie.render('cover3.png')">3</button>
+<button onclick="scratchie.render('cover4.png')">4</button>
 <br>
 <br>
 <i>Fill color</i>
-<button onclick="scratchcard.render('red')">red</button>
-<button onclick="scratchcard.render('blue')">blue</button>
-<button onclick="scratchcard.render('hotpink')">hotpink</button>
-<button onclick="scratchcard.render('yellow')">yellow</button>
+<button onclick="scratchie.render('red')">red</button>
+<button onclick="scratchie.render('blue')">blue</button>
+<button onclick="scratchie.render('hotpink')">hotpink</button>
+<button onclick="scratchie.render('yellow')">yellow</button>
 <br>
 <br>
 <code>
     // Public API to initialize and update the CanvasContext:
     <br>
-    scratchcard.fill(type, value);
+    scratchie.fill(type, value);
 </code>
 
-<script src="/scratchcard.js"></script>
+<script src="../scratchie.js"></script>
 <script>
 (function() {
 
-
-    var scratchcard = new Scratchcard('[data-scratchcard]', {
+    var scratchie = new Scratchie('[data-scratchie]', {
         brush: 'brush.png',
         onRenderEnd: function() {
             // Show the form when Image is loaded.
-            this.element.querySelectorAll('.scratchcard__secret')[0].style.visibility = 'visible';
+            this.element.querySelectorAll('.scratchie__secret')[0].style.visibility = 'visible';
         },
         onScratchMove: function(filledInPixels) {
             //console.log(filledInPixels + '%');
         }
     });
 
-    //document.querySelectorAll('[data-provide=scratchcard]')[1].scratchcard.render('image', 'cover1.png');
-    /*
-    scratchcard.render('custom', function() {
-        this.ctx.rect(0, 0, this.canvasWidth, this.canvasWidth);
-
-        // add linear gradient
-        var grd = this.ctx.createLinearGradient(this.canvas.width / 2, 0, this.canvas.width / 2, this.canvas.height);
-        grd.addColorStop(0, 'hotpink');
-        // dark blue
-        grd.addColorStop(1, 'white');
-        this.ctx.fillStyle = grd;
-        this.ctx.fill();
-    });
-    */
-
     // Global expose
-    window.scratchcard = scratchcard;
+    window.scratchie = scratchie;
 })();
 </script>
 </body>

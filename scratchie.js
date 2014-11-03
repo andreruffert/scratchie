@@ -21,6 +21,19 @@
         return obj;
     }
 
+    function appendStyle(styles) {
+        var css = document.createElement('style');
+        css.type = 'text/css';
+
+        if (css.styleSheet) {
+            css.styleSheet.cssText = styles;
+        }
+        else {
+            css.appendChild(document.createTextNode(styles));
+        }
+        document.getElementsByTagName('head')[0].appendChild(css);
+    }
+
     function distanceBetween(point1, point2) {
         return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2));
     }
@@ -30,13 +43,14 @@
     }
 
     // Module Configuration
-    var identifier = 0,
-        moduleName = 'scratchcard',
+    var instances = [],
+        identifier = 0,
+        moduleName = 'scratchie',
         defaults = {
-            canvasClassName: 'scratchcard-canvas',
+            canvasClassName: 'scratchie-canvas',
             brush: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAJ0lEQVR42u3NoQEAAAjAoP3/tJ6hgUCmao6IxWKxWCwWi8VisfhrvDDIgKphXmDUAAAAAElFTkSuQmCC',
             onRenderEnd: null,    // Callback fn
-            onScratchMove: null // Callback fn
+            onScratchMove: null   // Callback fn
         };
 
     /**
@@ -45,7 +59,7 @@
      * @param {Object} options
      */
     function Module(element, options) {
-        this.element            = document.querySelectorAll(element)[0];
+        this.element            = element;
         this.options            = extend(defaults, options);
         this.id                 = 'js-' + moduleName + '-' + identifier++;
         this.enabled            = true;
@@ -60,18 +74,31 @@
         this.canvasWidth        = this.element.clientWidth;
         this.canvasHeight       = this.element.clientHeight;
         this.canvas             = document.createElement('canvas');
-        this.canvas.className   = this.options.canvasClassName;
+        this.canvas.className   = this.options.canvasClassName + ' js-' + moduleName + '-canvas';
         this.canvas.id          = this.id;
         this.ctx                = this.canvas.getContext('2d');
+        this.element.className  = this.element.className + ' js-' + moduleName;
+        this.element.id         = this.id;
 
-        // Required styles
-        this.element.style.position = 'relative';
-        this.canvas.style.position = 'absolute';
-        this.canvas.style.top = '0';
-
-        this.element.id = this.id;
         this.element.appendChild(this.canvas);
         this.addEvents();
+
+        // Required styles
+        if (identifier !== 1) { return; }
+        appendStyle([
+            '.js-' + moduleName + ' {',
+                'position: relative;',
+                '-webkit-user-select: none;',
+                '-moz-user-select: none;',
+                '-ms-user-select: none;',
+                '-o-user-select: none;',
+                'user-select: none;',
+            '}',
+            '.js-' + moduleName + '-canvas {',
+                'position: absolute;',
+                'top: 0;',
+            '}'
+        ].join('\n'));
     }
 
     Module.prototype.addEvents = function() {
@@ -81,8 +108,8 @@
         this.canvas.addEventListener('touchend', this.handleEnd, false);
     };
 
-    Module.prototype.render = function(type, value) {
-        type = type || 'color';
+    Module.prototype.render = function(value) {
+        var type = (value.indexOf('.') > -1) ? 'image' : 'color'
         var _this = this;
         this.isDrawing = false;
         this.lastPoint = null;
@@ -112,10 +139,6 @@
 
                 // Fixes `onload()` for cached images
                 image.src = src + '?' + new Date().getTime();
-            },
-            custom: function(fn, cb) {
-                fn.bind(_this)();
-                cb();
             }
         };
 
@@ -146,8 +169,7 @@
     // Returns mouse position relative to the `canvas` parent
     Module.prototype.getRelativePosition = function(e, canvas) {
         var offsetX = 0,
-            offsetY = 0,
-            mx, my;
+            offsetY = 0;
 
         if (canvas.offsetParent !== undefined) {
             while (canvas !== null) {
@@ -157,12 +179,9 @@
             }
         }
 
-        mx = e.pageX - offsetX;
-        my = e.pageY - offsetY;
-
         return {
-            x: mx,
-            y: my
+            x: e.pageX - offsetX,
+            y: e.pageY - offsetY
         };
     };
 
@@ -210,6 +229,22 @@
         this.canvas.removeEventListener('touchmove', this.handleMove, false);
     };
 
+
+    // Module wrapper
+    function Scratchie(selector, options) {
+        var elements = document.querySelectorAll(selector);
+
+        for (var i = 0, l = elements.length; i < l; i++) {
+            elements[i].scratchie = new Module(elements[i], options);
+            instances.push(elements[i]);
+
+            elements[i].scratchie.render(elements[i].getAttribute('data-scratchie'));
+        }
+    }
+
+    // Returns all elements that are initialized with Scratchie
+    Scratchie.prototype.elements = instances;
+
     // Global expose
-    window[moduleName.charAt(0).toUpperCase() + moduleName.slice(1)] = Module;
+    window.Scratchie = Scratchie;
 })();
