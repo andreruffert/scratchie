@@ -1,6 +1,6 @@
 {
   "name": "scratchie",
-  "version": "1.0.0",
+  "version": "1.0.1-0",
   "description": "Scratchie is a library for canvas based scratch off panels.",
   "main": "dist/scratchie.js",
   "umd:main": "dist/scratchie.umd.js",
