@@ -1,0 +1,46 @@
+{
+  "name": "scratchie",
+  "version": "1.0.0",
+  "description": "Scratchie is a library for canvas based scratch off panels.",
+  "main": "dist/scratchie.js",
+  "umd:main": "dist/scratchie.umd.js",
+  "module": "dist/scratchie.m.js",
+  "source": "src/scratchie.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "start": "microbundle watch",
+    "build": "microbundle --entry src/ --name Scratchie",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --write '**/*.js'",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run format",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreruffert/scratchie.git"
+  },
+  "keywords": [
+    "scratch",
+    "panel",
+    "scratchcard",
+    "canvas"
+  ],
+  "author": "André Ruffert <andreruffert.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andreruffert/scratchie/issues"
+  },
+  "homepage": "https://github.com/andreruffert/scratchie#readme",
+  "devDependencies": {
+    "lint-staged": "^7.0.4",
+    "microbundle": "^0.4.4",
+    "prettier": "^1.11.1"
+  }
+}

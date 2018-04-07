@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <style>
-        body {
-            padding: 30px 0;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+  <meta charset="utf-8">
+  <style>
+    body {
+      padding: 30px 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
 
-        .scratchie {
-            border: 3px solid yellow;
-            width: 150px;
-            height: 150px;
-        }
-    </style>
+    .scratchie {
+      border: 3px solid yellow;
+      width: 150px;
+      height: 150px;
+
+      user-select: none;
+    }
+
+    .scratchie--scratched {
+      user-select: initial;
+    }
+
+    .scratchie--scratched > canvas {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
@@ -32,62 +40,42 @@
   </div>
 </div>
 
-<div class="scratchie" data-scratchie="cover3.png">
-  <div class="scratchie__secret" style="visibility: hidden;">
-    <h1 style="text-align: center">'Allo, 'Allo!</h1>
-  </div>
-</div>
-
-<div class="scratchie" data-scratchie="cover4.png">
-  <div class="scratchie__secret" style="visibility: hidden;">
-    <h1 style="text-align: center">'Allo, 'Allo!</h1>
-  </div>
-</div>
-
-<div class="scratchie" data-scratchie="red">
-  <div class="scratchie__secret" style="visibility: hidden;">
-    <h1 style="text-align: center">'Allo, 'Allo!</h1>
-  </div>
-</div>
 
 <br>
 <i>Load image:</i>
-<button onclick="scratchie.render('cover1.png')">1</button>
-<button onclick="scratchie.render('cover2.png')">2</button>
-<button onclick="scratchie.render('cover3.png')">3</button>
-<button onclick="scratchie.render('cover4.png')">4</button>
+<button onclick="elements[0].scratchie.render('cover1.png')">1</button>
+<button onclick="elements[0].scratchie.render('cover2.png')">2</button>
+<button onclick="elements[0].scratchie.render('cover3.png')">3</button>
+<button onclick="elements[0].scratchie.render('cover4.png')">4</button>
 <br>
 <br>
 <i>Fill color</i>
-<button onclick="scratchie.render('red')">red</button>
-<button onclick="scratchie.render('blue')">blue</button>
-<button onclick="scratchie.render('hotpink')">hotpink</button>
-<button onclick="scratchie.render('yellow')">yellow</button>
-<br>
-<br>
-<code>
-    // Public API to initialize and update the CanvasContext:
-    <br>
-    scratchie.fill(type, value);
-</code>
+<button onclick="elements[0].scratchie.render('red')">red</button>
+<button onclick="elements[0].scratchie.render('blue')">blue</button>
+<button onclick="elements[0].scratchie.render('hotpink')">hotpink</button>
+<button onclick="elements[0].scratchie.render('yellow')">yellow</button>
 
-<script src="../scratchie.js"></script>
+
+<script src="../dist/scratchie.umd.js"></script>
 <script>
 (function() {
 
-    var scratchie = new Scratchie('[data-scratchie]', {
-        brush: 'brush.png',
-        onRenderEnd: function() {
-            // Show the form when Image is loaded.
-            this.element.querySelectorAll('.scratchie__secret')[0].style.visibility = 'visible';
-        },
-        onScratchMove: function(filledInPixels) {
-            //console.log(filledInPixels + '%');
-        }
-    });
+  const elements = new Scratchie('[data-scratchie]', {
+    brush: 'brush.png',
+    onRenderEnd: function() {
+      this.element.classList.remove('scratchie--scratched');
+
+      // Show the form when Image is loaded.
+      this.element.querySelectorAll('.scratchie__secret')[0].style.visibility = 'visible';
+    },
+    onScratch: function(scratchedPixels) {
+      if (scratchedPixels < 99) return;
+      this.element.classList.add('scratchie--scratched');
+    }
+  });
 
     // Global expose
-    window.scratchie = scratchie;
+    window.elements = elements;
 })();
 </script>
 </body>
